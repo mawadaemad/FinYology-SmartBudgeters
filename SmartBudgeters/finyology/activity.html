@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Budgeters - Knowledge Challenge</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap');
+    
+        #translateBtn {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            margin-right: auto;
+        }
+
+               
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4cc9f0;
+            --dark: #2b2d42;
+            --light: #f8f9fa;
+            --success: #4ad66d;
+            --warning: #ffd166;
+            --danger: #ef476f;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #f0f2f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        header {
+            padding: 2rem 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            clip-path: ellipse(100% 100% at 50% 0%);
+            padding-bottom: 6rem;
+            text-align: center;
+        }
+        
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .logo-icon {
+            font-size: 2.5rem;
+            margin-right: 1rem;
+            color: var(--accent);
+        }
+        
+        .logo-text {
+            font-size: 2.8rem;
+            font-weight: 900;
+            background: linear-gradient(to right, white 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .tagline {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            position: relative;
+            z-index: 2;
+            margin-top: -5rem;
+            padding: 0 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+        }
+        
+        .activity-card {
+            composes: glass-card;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid rgba(67, 97, 238, 0.1);
+        }
+        
+        .form-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            text-align: center;
+        }
+        
+        .form-subtitle {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #6c757d;
+        }
+        
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.15;
+            filter: blur(40px);
+        }
+        
+        .element-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--primary);
+            top: 10%;
+            left: 5%;
+        }
+        
+        .element-2 {
+            width: 300px;
+            height: 300px;
+            background: var(--accent);
+            bottom: 15%;
+            right: 10%;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 2rem 0;
+            margin-top: auto;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+        
+        .quiz-container {
+            padding: 1rem;
+        }
+        
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .quiz-stats {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 0.8rem 1.5rem;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-bottom: 0.3rem;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .timer {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .question-container {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .question-number {
+            font-size: 0.9rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .question-text {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+        
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .option-item {
+            padding: 1rem;
+            border-radius: 10px;
+            background: white;
+            border: 2px solid rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .option-item:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(76, 201, 240, 0.15);
+        }
+        
+        .option-item.selected {
+            border-color: var(--accent);
+            background-color: rgba(76, 201, 240, 0.1);
+        }
+        
+        .option-item.correct {
+            border-color: var(--success);
+            background-color: rgba(74, 214, 109, 0.1);
+        }
+        
+        .option-item.incorrect {
+            border-color: var(--danger);
+            background-color: rgba(239, 71, 111, 0.1);
+        }
+        
+        .option-letter {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border-radius: 50%;
+            background-color: #e9ecef;
+            color: var(--dark);
+            margin-right: 0.8rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+        
+        .option-item.selected .option-letter {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        .option-item.correct .option-letter {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .option-item.incorrect .option-letter {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .option-text {
+            display: inline-block;
+            vertical-align: middle;
+            font-weight: 500;
+        }
+        
+        .actions-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+        
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent);
+            color: var(--dark);
+            box-shadow: 0 4px 15px rgba(76, 201, 240, 0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(76, 201, 240, 0.5);
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--dark);
+            border: 2px solid var(--accent);
+            box-shadow: 0 4px 15px rgba(76, 201, 240, 0.1);
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(76, 201, 240, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(76, 201, 240, 0.2);
+        }
+        
+        .btn-disabled {
+            background-color: #e9ecef;
+            color: #6c757d;
+            cursor: not-allowed;
+        }
+        
+        .feedback-container {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s ease;
+            display: none;
+        }
+        
+        .feedback-correct {
+            background-color: rgba(74, 214, 109, 0.1);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+        
+        .feedback-incorrect {
+            background-color: rgba(239, 71, 111, 0.1);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+        
+        .progress-container {
+            margin-bottom: 2rem;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: linear-gradient(to right, var(--accent), var(--primary));
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .result-container {
+            text-align: center;
+            padding: 2rem;
+            display: none;
+        }
+        
+        .result-icon {
+            font-size: 5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .result-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .result-message {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #6c757d;
+        }
+        
+        .score-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(0,0,0,0.1);
+            display: inline-block;
+        }
+        
+        .score-value {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .score-label {
+            font-size: 1.1rem;
+            color: #6c757d;
+        }
+        
+        .result-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .result-stat-item {
+            text-align: center;
+        }
+        
+        .result-stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .result-stat-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .leaderboard-container {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .leaderboard-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            text-align: center;
+        }
+        
+        .leaderboard-list {
+            list-style: none;
+        }
+        
+        .leaderboard-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .leaderboard-rank {
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border-radius: 50%;
+            font-weight: 700;
+            margin-right: 1rem;
+        }
+        
+        .rank-1 {
+            background-color: #ffd700;
+            color: var(--dark);
+        }
+        
+        .rank-2 {
+            background-color: #c0c0c0;
+            color: var(--dark);
+        }
+        
+        .rank-3 {
+            background-color: #cd7f32;
+            color: white;
+        }
+        
+        .rank-other {
+            background-color: #e9ecef;
+            color: var(--dark);
+        }
+        
+        .leaderboard-user {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 1rem;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .user-name {
+            font-weight: 500;
+        }
+        
+        .leaderboard-score {
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--accent);
+            opacity: 0.7;
+            border-radius: 0;
+            animation: confetti 3s ease-in infinite;
+        }
+        
+        @keyframes confetti {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .logo-text {
+                font-size: 2rem;
+            }
+            
+            .tagline {
+                font-size: 1.2rem;
+            }
+            
+            .activity-card {
+                padding: 1.5rem;
+            }
+            
+            .form-title {
+                font-size: 1.5rem;
+            }
+            
+            .options-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .quiz-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .quiz-stats {
+                width: 100%;
+                justify-content: space-around;
+            }
+            
+            .result-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+            
+            .actions-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .actions-container .btn {
+                width: 100%;
+            }
+        }
+    </style>
+
+</head>
+<body>
+         <div id="navbar-placeholder"></div>
+    <div class="floating-elements">
+        <div class="floating-element element-1"></div>
+        <div class="floating-element element-2"></div>
+    </div>
+    
+    <header>
+        <div class="logo-container">
+            <i class="fas fa-trophy logo-icon"></i>
+            <h1 class="logo-text">Financial Knowledge Challenge</h1>
+        </div>
+        <p class="tagline">Test your financial knowledge and earn points</p>
+    </header>
+    
+    <div class="main-content">
+        <div class="activity-card glass-card">
+            <h2 class="form-title">Financial Knowledge Challenge</h2>
+            <p class="form-subtitle">Answer questions quickly and score the highest points</p>
+            
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress" id="quizProgress" style="width: 0%"></div>
+                </div>
+            </div>
+            
+            <div id="quizContainer" class="quiz-container">
+                <div class="quiz-header">
+                     <button id="translateBtn" class="btn btn-secondary" style="margin-right: auto;">
+        <i class="fas fa-language"></i> English
+    </button>
+                    <div class="quiz-stats">
+                        <div class="stat-item">
+                            <div class="stat-label">Points</div>
+                            <div class="stat-value" id="pointsValue">0</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Question</div>
+                            <div class="stat-value"><span id="currentQuestion">1</span>/<span id="totalQuestions">10</span></div>
+                        </div>
+                    </div>
+                    <div class="timer" id="timer">00:30</div>
+                </div>
+                
+                <div class="question-container">
+                    <div class="question-number">Question <span id="questionNumber">1</span></div>
+                    <div class="question-text" id="questionText">What is the concept of periodic saving?</div>
+                    <div class="options-container">
+                        <div class="option-item" data-option="1">
+                            <div class="option-letter">A</div>
+                            <span class="option-text">An amount saved regularly each month</span>
+                        </div>
+                        <div class="option-item" data-option="2">
+                            <div class="option-letter">B</div>
+                            <span class="option-text">A short-term investment strategy</span>
+                        </div>
+                        <div class="option-item" data-option="3">
+                            <div class="option-letter">C</div>
+                            <span class="option-text">The ratio of debt to income</span>
+                        </div>
+                        <div class="option-item" data-option="4">
+                            <div class="option-letter">D</div>
+                            <span class="option-text">A plan to reduce expenses</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="feedback-container" id="feedbackContainer"></div>
+                
+                <div class="actions-container">
+                    <button type="button" class="btn btn-secondary" id="skipBtn">
+                        <i class="fas fa-forward"></i> Skip
+                    </button>
+                    <button type="button" class="btn btn-primary btn-disabled" id="nextBtn" disabled>
+                        Next Question <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div id="resultContainer" class="result-container">
+                <i class="fas fa-award result-icon"></i>
+                <h2 class="result-title">Well Done!</h2>
+                <p class="result-message">You've successfully completed the challenge</p>
+                
+                <div class="score-card">
+                    <div class="score-value" id="finalScore">850</div>
+                    <div class="score-label">points</div>
+                </div>
+                
+                <div class="result-stats">
+                    <div class="result-stat-item">
+                        <div class="result-stat-value" id="correctAnswers">8</div>
+                        <div class="result-stat-label">Correct Answers</div>
+                    </div>
+                    <div class="result-stat-item">
+                        <div class="result-stat-value" id="quizTime">01:45</div>
+                        <div class="result-stat-label">Time Taken</div>
+                    </div>
+                    <div class="result-stat-item">
+                        <div class="result-stat-value" id="accuracy">80%</div>
+                        <div class="result-stat-label">Accuracy</div>
+                    </div>
+                </div>
+                
+                <button type="button" class="btn btn-primary" id="playAgainBtn">
+                    <i class="fas fa-redo"></i> Play Again
+                </button>
+                
+                <div class="leaderboard-container">
+                    <h3 class="leaderboard-title">Leaderboard</h3>
+                    <ul class="leaderboard-list">
+                        <li class="leaderboard-item">
+                            <div class="leaderboard-rank rank-1">1</div>
+                            <div class="leaderboard-user">
+                                <div class="user-avatar">S</div>
+                                <div class="user-name">Sarah Ahmed</div>
+                            </div>
+                            <div class="leaderboard-score">950 points</div>
+                        </li>
+                        <li class="leaderboard-item">
+                            <div class="leaderboard-rank rank-2">2</div>
+                            <div class="leaderboard-user">
+                                <div class="user-avatar">M</div>
+                                <div class="user-name">Michael Ali</div>
+                            </div>
+                            <div class="leaderboard-score">900 points</div>
+                        </li>
+                        <li class="leaderboard-item">
+                            <div class="leaderboard-rank rank-3">3</div>
+                            <div class="leaderboard-user">
+                                <div class="user-avatar">N</div>
+                                <div class="user-name">Nora Said</div>
+                            </div>
+                            <div class="leaderboard-score">870 points</div>
+                        </li>
+                        <li class="leaderboard-item">
+                            <div class="leaderboard-rank rank-other">4</div>
+                            <div class="leaderboard-user">
+                                <div class="user-avatar">Y</div>
+                                <div class="user-name">You</div>
+                            </div>
+                            <div class="leaderboard-score">850 points</div>
+                        </li>
+                        <li class="leaderboard-item">
+                            <div class="leaderboard-rank rank-other">5</div>
+                            <div class="leaderboard-user">
+                                <div class="user-avatar">O</div>
+                                <div class="user-name">Omar Hassan</div>
+                            </div>
+                            <div class="leaderboard-score">820 points</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-logo">Financial Knowledge Challenge</div>
+        <p>&copy; 2025 Smart Budgeters. All Rights Reserved</p>
+    </footer>
+
+    <script>
+// نظام إدارة المستخدمين والنقاط
+// نظام إدارة المستخدمين والنقاط
+class PointsSystem {
+    constructor() {
+        this.users = JSON.parse(localStorage.getItem('smartBudgetersUsers')) || [];
+        this.currentUser = JSON.parse(localStorage.getItem('smartBudgeters_currentUser')) || null;
+        this.leaderboard = JSON.parse(localStorage.getItem('smartBudgeters_leaderboard')) || [];
+    }
+
+    addPoints(points) {
+        if (!this.currentUser) return;
+        
+        const userIndex = this.users.findIndex(u => u.email === this.currentUser.email);
+        if (userIndex !== -1) {
+            this.users[userIndex].points = (this.users[userIndex].points || 0) + points;
+            localStorage.setItem('smartBudgetersUsers', JSON.stringify(this.users));
+            this.updateCurrentUser(this.users[userIndex]);
+            this.updateLeaderboard(points);
+        }
+    }
+
+    updateCurrentUser(user) {
+        this.currentUser = user;
+        localStorage.setItem('smartBudgeters_currentUser', JSON.stringify(user));
+    }
+
+    updateLeaderboard(points) {
+        if (!this.currentUser) return;
+        
+        const userEntry = {
+            name: `${this.currentUser.firstName} ${this.currentUser.lastName}`,
+            score: points,
+            avatar: this.currentUser.firstName.charAt(0) + this.currentUser.lastName.charAt(0),
+            date: new Date().toISOString()
+        };
+        
+        this.leaderboard.push(userEntry);
+        this.leaderboard.sort((a, b) => b.score - a.score);
+        this.leaderboard = this.leaderboard.slice(0, 10);
+        localStorage.setItem('smartBudgeters_leaderboard', JSON.stringify(this.leaderboard));
+    }
+
+    getLeaderboard() {
+        return this.leaderboard;
+    }
+}
+
+// تهيئة النظام
+const pointsSystem = new PointsSystem();
+
+// إعدادات الاختبار
+const quizConfig = {
+    totalQuestions: 10,
+    timePerQuestion: 30,
+    pointsPerCorrectAnswer: 100,
+    timeBonus: 2,
+    accuracyBonus: {
+        high: { threshold: 80, points: 200 },
+        medium: { threshold: 50, points: 100 }
+    }
+};
+
+// متغيرات الاختبار
+let currentQuestionIndex = 0;
+let score = 0;
+let correctAnswers = 0;
+let quizStartTime = 0;
+let quizEndTime = 0;
+let timerInterval = null;
+let selectedOption = null;
+let secondsRemaining = quizConfig.timePerQuestion;
+let currentLanguage = 'ar'; // اللغة الافتراضية (ar: عربي، en: إنجليزي)
+
+// فئات الأسئلة (مترجمة)
+const questionCategories = {
+    basic: [
+        {
+            question: {
+                ar: "ما هو مفهوم الادخار الدوري؟",
+                en: "What is the concept of periodic saving?"
+            },
+            options: {
+                ar: ["مبلغ يتم ادخاره بانتظام كل شهر", "استراتيجية استثمار قصيرة الأجل", "نسبة الدخل إلى الدين", "خطة لتقليل المصروفات"],
+                en: ["An amount saved regularly each month", "A short-term investment strategy", "The ratio of income to debt", "A plan to reduce expenses"]
+            },
+            correctAnswer: 0,
+            points: 100
+        },
+        {
+            question: {
+                ar: "ما هو صندوق الطوارئ؟",
+                en: "What is an emergency fund?"
+            },
+            options: {
+                ar: ["أموال توضع جانباً للطوارئ", "نوع من حسابات التقاعد", "خطة ادخار للتعليم", "حساب توفير بفائدة عالية"],
+                en: ["Money set aside for emergencies", "A type of retirement account", "A savings plan for education", "A high-interest savings account"]
+            },
+            correctAnswer: 0,
+            points: 100
+        }
+    ],
+    intermediate: [
+        {
+            question: {
+                ar: "ما هي قاعدة 50/30/20 للميزانية الشخصية؟",
+                en: "What is the 50/30/20 rule for personal budgeting?"
+            },
+            options: {
+                ar: ["50% استثمار، 30% ادخار، 20% مصروفات", "50% احتياجات، 30% رغبات، 20% ادخار وسداد ديون", "50% سكن، 30% طعام، 20% مواصلات", "50% راتب أساسي، 30% مكافآت، 20% دخل إضافي"],
+                en: ["50% investment, 30% savings, 20% expenses", "50% needs, 30% wants, 20% savings & debt repayment", "50% housing, 30% food, 20% transportation", "50% base salary, 30% bonuses, 20% additional income"]
+            },
+            correctAnswer: 1,
+            points: 150
+        },
+        {
+            question: {
+                ar: "ما هو الفائدة المركبة؟",
+                en: "What is compound interest?"
+            },
+            options: {
+                ar: ["فائدة على المبلغ الأصلي فقط", "فائدة ثابتة بمرور الوقت", "فائدة على المبلغ الأصلي والفائدة المتراكمة", "فائدة على القروض فقط"],
+                en: ["Interest on the principal amount only", "Fixed interest over time", "Interest on the principal and accumulated interest", "Interest on loans only"]
+            },
+            correctAnswer: 2,
+            points: 150
+        }
+    ],
+    advanced: [
+        {
+            question: {
+                ar: "ما هو تنويع الاستثمار؟",
+                en: "What is investment diversification?"
+            },
+            options: {
+                ar: ["وضع كل أموالك في حسابات بنكية مختلفة", "الاستثمار فقط في العملات الرقمية", "توزيع الاستثمارات على أصول متنوعة لتقليل المخاطر", "الاستثمار في الأسواق الأجنبية فقط"],
+                en: ["Putting all your money in different bank accounts", "Investing only in cryptocurrencies", "Spreading investments across diverse assets to reduce risk", "Investing only in foreign markets"]
+            },
+            correctAnswer: 2,
+            points: 200
+        },
+        {
+            question: {
+                ar: "ما هي نسبة الدين إلى الدخل؟",
+                en: "What is the debt-to-income ratio?"
+            },
+            options: {
+                ar: ["النسبة المئوية لاستخدامك لحد الائتمان", "مقارنة مدفوعات ديونك الشهرية بدخلك الشهري", "نسبة قروض التعليم إلى قروض الإسكان", "مقارنة دخل الأسرة بالمعدل الوطني"],
+                en: ["The percentage of your credit limit you're using", "Comparing your monthly debt payments to your monthly income", "The ratio of education loans to housing loans", "Comparing household income to the national average"]
+            },
+            correctAnswer: 1,
+            points: 200
+        }
+    ]
+};
+
+// عناصر DOM
+const quizContainer = document.getElementById('quizContainer');
+const resultContainer = document.getElementById('resultContainer');
+const questionText = document.getElementById('questionText');
+const optionsContainer = document.querySelector('.options-container');
+const nextBtn = document.getElementById('nextBtn');
+const skipBtn = document.getElementById('skipBtn');
+const playAgainBtn = document.getElementById('playAgainBtn');
+const feedbackContainer = document.getElementById('feedbackContainer');
+const currentQuestionElem = document.getElementById('currentQuestion');
+const totalQuestionsElem = document.getElementById('totalQuestions');
+const timerElem = document.getElementById('timer');
+const pointsValueElem = document.getElementById('pointsValue');
+const quizProgressElem = document.getElementById('quizProgress');
+const finalScoreElem = document.getElementById('finalScore');
+const correctAnswersElem = document.getElementById('correctAnswers');
+const quizTimeElem = document.getElementById('quizTime');
+const accuracyElem = document.getElementById('accuracy');
+const translateBtn = document.getElementById('translateBtn');
+
+// الحصول على أسئلة عشوائية
+function getRandomQuestions() {
+    const allQuestions = [
+        ...questionCategories.basic,
+        ...questionCategories.intermediate,
+        ...questionCategories.advanced
+    ];
+    
+    return allQuestions
+        .sort(() => 0.5 - Math.random())
+        .slice(0, quizConfig.totalQuestions);
+}
+
+let quizQuestions = getRandomQuestions();
+
+// تبديل اللغة بين العربية والإنجليزية
+function toggleLanguage() {
+    currentLanguage = currentLanguage === 'ar' ? 'en' : 'ar';
+    translateBtn.innerHTML = `<i class="fas fa-language"></i> ${currentLanguage === 'ar' ? 'English' : 'العربية'}`;
+    loadQuestion();
+}
+
+// تهيئة الاختبار
+function initQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    correctAnswers = 0;
+    quizStartTime = new Date().getTime();
+    quizEndTime = 0;
+    currentLanguage = 'ar'; // إعادة تعيين اللغة إلى العربية
+    
+    totalQuestionsElem.textContent = quizConfig.totalQuestions;
+    pointsValueElem.textContent = score;
+    translateBtn.innerHTML = '<i class="fas fa-language"></i> English';
+    
+    quizContainer.style.display = 'block';
+    resultContainer.style.display = 'none';
+    
+    loadQuestion();
+}
+
+// تحميل السؤال الحالي
+function loadQuestion() {
+    selectedOption = null;
+    nextBtn.disabled = true;
+    nextBtn.classList.add('btn-disabled');
+    feedbackContainer.style.display = 'none';
+    
+    resetTimer();
+    
+    const progressPercentage = (currentQuestionIndex / quizConfig.totalQuestions) * 100;
+    quizProgressElem.style.width = `${progressPercentage}%`;
+    
+    currentQuestionElem.textContent = currentQuestionIndex + 1;
+    document.getElementById('questionNumber').textContent = currentQuestionIndex + 1;
+    
+    const currentQuestion = quizQuestions[currentQuestionIndex];
+    questionText.textContent = currentQuestion.question[currentLanguage];
+    
+    let optionsHTML = '';
+    const letters = currentLanguage === 'ar' ? ['أ', 'ب', 'ج', 'د'] : ['A', 'B', 'C', 'D'];
+    
+    currentQuestion.options[currentLanguage].forEach((option, index) => {
+        optionsHTML += `
+            <div class="option-item" data-option="${index}">
+                <div class="option-letter">${letters[index]}</div>
+                <span class="option-text">${option}</span>
+            </div>
+        `;
+    });
+    
+    optionsContainer.innerHTML = optionsHTML;
+    
+    document.querySelectorAll('.option-item').forEach(option => {
+        option.addEventListener('click', selectOption);
+    });
+}
+
+// اختيار الإجابة
+function selectOption(e) {
+    if (selectedOption !== null) return;
+    
+    document.querySelectorAll('.option-item').forEach(option => {
+        option.classList.remove('selected');
+    });
+    
+    const optionElement = e.currentTarget;
+    optionElement.classList.add('selected');
+    selectedOption = parseInt(optionElement.dataset.option);
+    
+    nextBtn.disabled = false;
+    nextBtn.classList.remove('btn-disabled');
+    
+    checkAnswer();
+}
+
+// التحقق من الإجابة
+function checkAnswer() {
+    clearInterval(timerInterval);
+    
+    const currentQuestion = quizQuestions[currentQuestionIndex];
+    const isCorrect = selectedOption === currentQuestion.correctAnswer;
+    
+    feedbackContainer.style.display = 'block';
+    
+    if (isCorrect) {
+        const timePoints = secondsRemaining * quizConfig.timeBonus;
+        const questionPoints = currentQuestion.points || quizConfig.pointsPerCorrectAnswer;
+        const pointsEarned = questionPoints + timePoints;
+        
+        score += pointsEarned;
+        correctAnswers++;
+        
+        pointsValueElem.textContent = score;
+        
+        feedbackContainer.textContent = currentLanguage === 'ar' 
+            ? `إجابة صحيحة! +${pointsEarned} نقطة` 
+            : `Correct answer! +${pointsEarned} points`;
+        feedbackContainer.className = 'feedback-container feedback-correct';
+        
+        document.querySelector(`.option-item[data-option="${selectedOption}"]`).classList.add('correct');
+    } else {
+        const letters = currentLanguage === 'ar' ? ['أ', 'ب', 'ج', 'د'] : ['A', 'B', 'C', 'D'];
+        const correctAnswerText = currentQuestion.options[currentLanguage][currentQuestion.correctAnswer];
+        
+        feedbackContainer.textContent = currentLanguage === 'ar'
+            ? `إجابة خاطئة! الإجابة الصحيحة هي ${letters[currentQuestion.correctAnswer]}: ${correctAnswerText}`
+            : `Wrong answer! The correct answer is ${letters[currentQuestion.correctAnswer]}: ${correctAnswerText}`;
+        feedbackContainer.className = 'feedback-container feedback-incorrect';
+        
+        document.querySelector(`.option-item[data-option="${selectedOption}"]`).classList.add('incorrect');
+        document.querySelector(`.option-item[data-option="${currentQuestion.correctAnswer}"]`).classList.add('correct');
+    }
+}
+
+// نظام المؤقت
+function startTimer() {
+    secondsRemaining = quizConfig.timePerQuestion;
+    updateTimerDisplay();
+    
+    timerInterval = setInterval(() => {
+        secondsRemaining--;
+        updateTimerDisplay();
+        
+        if (secondsRemaining <= 0) {
+            clearInterval(timerInterval);
+            timeUp();
+        }
+    }, 1000);
+}
+
+function resetTimer() {
+    clearInterval(timerInterval);
+    secondsRemaining = quizConfig.timePerQuestion;
+    updateTimerDisplay();
+    startTimer();
+}
+
+function updateTimerDisplay() {
+    const minutes = Math.floor(secondsRemaining / 60);
+    const seconds = secondsRemaining % 60;
+    timerElem.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    
+    if (secondsRemaining <= 5) {
+        timerElem.style.color = '#ef476f';
+    } else {
+        timerElem.style.color = '';
+    }
+}
+
+function timeUp() {
+    if (selectedOption === null) {
+        const currentQuestion = quizQuestions[currentQuestionIndex];
+        document.querySelector(`.option-item[data-option="${currentQuestion.correctAnswer}"]`).classList.add('correct');
+        
+        feedbackContainer.style.display = 'block';
+        const letters = currentLanguage === 'ar' ? ['أ', 'ب', 'ج', 'د'] : ['A', 'B', 'C', 'D'];
+        const correctAnswerText = currentQuestion.options[currentLanguage][currentQuestion.correctAnswer];
+        
+        feedbackContainer.textContent = currentLanguage === 'ar'
+            ? `انتهى الوقت! الإجابة الصحيحة هي ${letters[currentQuestion.correctAnswer]}: ${correctAnswerText}`
+            : `Time's up! The correct answer is ${letters[currentQuestion.correctAnswer]}: ${correctAnswerText}`;
+        feedbackContainer.className = 'feedback-container feedback-incorrect';
+        
+        nextBtn.disabled = false;
+        nextBtn.classList.remove('btn-disabled');
+    }
+}
+
+// الانتقال للسؤال التالي
+function nextQuestion() {
+    currentQuestionIndex++;
+    
+    if (currentQuestionIndex >= quizConfig.totalQuestions) {
+        endQuiz();
+    } else {
+        loadQuestion();
+    }
+}
+
+function skipQuestion() {
+    nextQuestion();
+}
+
+// إنهاء الاختبار
+function endQuiz() {
+    quizEndTime = new Date().getTime();
+    const totalTimeTaken = (quizEndTime - quizStartTime) / 1000;
+    
+    const accuracy = (correctAnswers / quizConfig.totalQuestions) * 100;
+    
+    // حساب المكافآت
+    let accuracyBonus = 0;
+    if (accuracy >= quizConfig.accuracyBonus.high.threshold) {
+        accuracyBonus = quizConfig.accuracyBonus.high.points;
+    } else if (accuracy >= quizConfig.accuracyBonus.medium.threshold) {
+        accuracyBonus = quizConfig.accuracyBonus.medium.points;
+    }
+    
+    const totalPoints = score + accuracyBonus;
+    
+    // حفظ النقاط
+    pointsSystem.addPoints(totalPoints);
+    
+    // عرض النتائج
+    finalScoreElem.textContent = totalPoints;
+    correctAnswersElem.textContent = correctAnswers;
+    quizTimeElem.textContent = `${Math.floor(totalTimeTaken / 60)}:${Math.floor(totalTimeTaken % 60).toString().padStart(2, '0')}`;
+    accuracyElem.textContent = `${accuracy.toFixed(0)}%`;
+    
+    quizContainer.style.display = 'none';
+    resultContainer.style.display = 'block';
+    
+    if (accuracy >= 70) {
+        createConfetti();
+    }
+    
+    // عرض لوحة المتصدرين
+    renderLeaderboard();
+}
+
+// عرض لوحة المتصدرين
+function renderLeaderboard() {
+    const leaderboard = pointsSystem.getLeaderboard();
+    const leaderboardList = document.querySelector('.leaderboard-list');
+    
+    leaderboardList.innerHTML = '';
+    
+    leaderboard.forEach((user, index) => {
+        const rankClass = index === 0 ? 'rank-1' : 
+                         index === 1 ? 'rank-2' : 
+                         index === 2 ? 'rank-3' : 'rank-other';
+        
+        const listItem = document.createElement('li');
+        listItem.className = 'leaderboard-item';
+        listItem.innerHTML = `
+            <div class="leaderboard-rank ${rankClass}">${index + 1}</div>
+            <div class="leaderboard-user">
+                <div class="user-avatar">${user.avatar}</div>
+                <div class="user-name">${user.name}</div>
+            </div>
+            <div class="leaderboard-score">${user.score} ${currentLanguage === 'ar' ? 'نقطة' : 'points'}</div>
+        `;
+        
+        leaderboardList.appendChild(listItem);
+    });
+}
+
+// تأثيرات الكونفيتي
+function createConfetti() {
+    const confettiCount = 100;
+    const colors = ['#4361ee', '#4cc9f0', '#4ad66d', '#ffd166'];
+    
+    for (let i = 0; i < confettiCount; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = `${Math.random() * 100}%`;
+        confetti.style.animationDelay = `${Math.random() * 3}s`;
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        
+        const size = Math.random() * 10 + 5;
+        confetti.style.width = `${size}px`;
+        confetti.style.height = `${size}px`;
+        
+        document.body.appendChild(confetti);
+        
+        setTimeout(() => {
+            confetti.remove();
+        }, 3000);
+    }
+}
+
+// تحديث الأسئلة تلقائياً
+function scheduleQuestionRefresh() {
+    setInterval(() => {
+        quizQuestions = getRandomQuestions();
+        console.log('Questions refreshed!');
+    }, 60 * 60 * 1000); // كل ساعة
+}
+
+// أحداث الأزرار
+nextBtn.addEventListener('click', nextQuestion);
+skipBtn.addEventListener('click', skipQuestion);
+playAgainBtn.addEventListener('click', () => {
+    quizQuestions = getRandomQuestions();
+    initQuiz();
+});
+translateBtn.addEventListener('click', toggleLanguage);
+
+// بدء النظام
+scheduleQuestionRefresh();
+initQuiz();
+</script>
+   <link rel="stylesheet" href="navbardetails/navbar.css">
+  <script src="navbardetails/navbar.js"></script>
+  </body>
